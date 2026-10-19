@@ -142,8 +142,8 @@ function Home() {
         <Reveal className="mx-auto max-w-3xl px-5 py-24 text-center">
           <p className="eyebrow">Reader Praise</p>
           <blockquote className="mt-8 min-h-32">
-            <p className="font-serif text-3xl italic text-parchment">“{PRAISE[slide].quote}”</p>
-            <footer className="mt-5 font-display tracking-widest text-gold">— {PRAISE[slide].name}</footer>
+            <p className="font-serif text-3xl italic text-parchment">“{PRAISE[slide]?.quote}”</p>
+            <footer className="mt-5 font-display tracking-widest text-gold">— {PRAISE[slide]?.name}</footer>
           </blockquote>
           <div className="mt-8 flex items-center justify-center gap-6">
             <button aria-label="Previous quote" onClick={() => setSlide((slide + PRAISE.length - 1) % PRAISE.length)} className="text-gold hover:text-gold-bright"><ChevronLeft /></button>
