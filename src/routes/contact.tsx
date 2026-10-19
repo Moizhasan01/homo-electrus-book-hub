@@ -32,7 +32,7 @@ function Contact() {
     e.preventDefault();
     setError(null);
     const parsed = schema.safeParse(form);
-    if (!parsed.success) { setError(parsed.error.issues[0].message); return; }
+    if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Invalid input"); return; }
     setState("loading");
     const { error } = await supabase.from("contact_messages").insert(parsed.data);
     if (error) { setState("idle"); setError("Something went wrong. Please try again."); return; }

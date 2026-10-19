@@ -20,7 +20,7 @@ export function SubscribeForm({ source, withName = false, cta = "Subscribe", com
     e.preventDefault();
     setError(null);
     const parsed = schema.safeParse({ first_name: withName ? name || undefined : undefined, email });
-    if (!parsed.success) { setError(parsed.error.issues[0].message); return; }
+    if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Invalid input"); return; }
     setStatus("loading");
     const { error } = await supabase.from("subscribers").insert({
       email: parsed.data.email.toLowerCase(),
