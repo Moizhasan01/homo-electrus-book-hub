@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteNav, SiteFooter } from "@/components/site/Layout";
 
 function NotFoundComponent() {
   return (
@@ -73,27 +74,33 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   );
 }
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Book", name: "Homo Electrus", author: { "@type": "Person", name: "Rabih Ballout" }, publisher: { "@type": "Organization", name: "Parker Publishers" }, url: "https://www.homoelectrus.com" },
+    { "@type": "Person", name: "Rabih Ballout", jobTitle: "Author and painter", email: "rabih.ballout@gmail.com", url: "https://www.homoelectrus.com/about" },
+  ],
+};
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Homo Electrus — a book by Rabih Ballout" },
+      { name: "description", content: "Homo Electrus by Rabih Ballout: on evolution, consciousness, and the responsibility of power." },
+      { name: "author", content: "Rabih Ballout" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nunito+Sans:wght@400;600;700&display=swap" },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -120,8 +127,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SiteNav />
+      <main>
+        <Outlet />
+      </main>
+      <SiteFooter />
     </QueryClientProvider>
   );
 }
